@@ -8,8 +8,11 @@ from time import sleep
 
 @bot.message_handler(commands=['start'])
 def on_start(message: Message) -> None:
-    greeting: str = 'Welcome to RSolver! Send a photo of a task you want to solve'
-    bot.send_message(chat_id=message.from_user.id, text=greeting)
+    greeting: str = 'Welcome to <b>RSolver</b>!\n\n'
+    greeting += 'Send a text/photo of a task you want to solve'
+    bot.send_message(chat_id=message.from_user.id,
+                     text=greeting,
+                     parse_mode='HTML')
 
 @bot.message_handler(content_types=['photo'])
 def on_photo(message: Message) -> None:
