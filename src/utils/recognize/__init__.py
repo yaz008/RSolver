@@ -1,0 +1,1 @@
+from utils.recognize.recognize import recognize
