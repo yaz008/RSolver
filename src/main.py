@@ -13,6 +13,31 @@ def on_start(message: Message) -> None:
     bot.send_message(chat_id=message.from_user.id,
                      text=greeting,
                      parse_mode='HTML')
+    
+@bot.message_handler(content_types=['text'])
+def on_text(message: Message) -> None:
+    solution_msg: Message = bot.send_message(chat_id=message.from_user.id,
+                                             text='Recognition...')
+    unscrambled_tasks: str = message.text
+    tasks: list[str] = loads(ask_gpt(template_name='jsonify',
+                                     subs={ 'TASKS': unscrambled_tasks }))
+    
+    solution: str = ''
+    for index, task in enumerate(tasks, start=1):
+        code: str = ask_gpt(template_name='solve',
+                            subs={
+                                'CONTEXT': solution,
+                                'TASK': task
+                            })
+        solution += f'# {index}\n{code}\n\n'
+        bot.edit_message_text(text=f'Solving: {index} of {len(tasks)}',
+                              chat_id=message.from_user.id,
+                              message_id=solution_msg.id)
+        sleep(1)
+
+    bot.edit_message_text(text=f'```r\n{solution}\n```',
+                          chat_id=message.from_user.id,
+                          message_id=solution_msg.id)
 
 @bot.message_handler(content_types=['photo'])
 def on_photo(message: Message) -> None:
