@@ -22,6 +22,10 @@ def on_text(message: Message) -> None:
     tasks: list[str] = loads(ask_gpt(template_name='jsonify',
                                      subs={ 'TASKS': unscrambled_tasks }))
     
+    bot.edit_message_text(text=f'Solving: 0 of {len(tasks)}',
+                          chat_id=message.from_user.id,
+                          message_id=solution_msg.id)
+
     solution: str = ''
     for index, task in enumerate(tasks, start=1):
         code: str = ask_gpt(template_name='solve',
@@ -50,6 +54,10 @@ def on_photo(message: Message) -> None:
     tasks: list[str] = loads(ask_gpt(template_name='jsonify',
                                      subs={ 'TASKS': unscrambled_tasks }))
     
+    bot.edit_message_text(text=f'Solving: 0 of {len(tasks)}',
+                          chat_id=message.from_user.id,
+                          message_id=solution_msg.id)
+
     solution: str = ''
     for index, task in enumerate(tasks, start=1):
         code: str = ask_gpt(template_name='solve',
