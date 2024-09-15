@@ -27,10 +27,10 @@ def recognize() -> None:
     mouse.position = (653, 118)
     mouse.click(Button.left)
     sleep(1)
-    mouse.position = (412, 255)
+    mouse.position = (2, 51)
     mouse.press(Button.left)
     sleep(1)
-    mouse.move(dx=642, dy=371)
+    mouse.move(dx=1466, dy=863)
     mouse.release(Button.left)
     sleep(1)
 
