@@ -1,4 +1,5 @@
 from bot import bot
+from os import getenv
 from telebot.types import Message, File
 from utils.download import download_photo
 from utils.recognize import recognize
@@ -45,6 +46,10 @@ def on_text(message: Message) -> None:
 
 @bot.message_handler(content_types=['photo'])
 def on_photo(message: Message) -> None:
+    if message.from_user.id != getenv(key='MY_ID'):
+        bot.send_message(chat_id=message.from_user.id,
+                         text='Photo is only available for the owner: please, send a text')
+        return None
     solution_msg: Message = bot.send_message(chat_id=message.from_user.id,
                                              text='Recognition...')
     download_photo(message=message)
