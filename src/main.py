@@ -46,7 +46,7 @@ def on_text(message: Message) -> None:
 
 @bot.message_handler(content_types=['photo'])
 def on_photo(message: Message) -> None:
-    if message.from_user.id != getenv(key='MY_ID'):
+    if message.from_user.id != int(getenv(key='MY_ID')):
         bot.send_message(chat_id=message.from_user.id,
                          text='Photo is only available for the owner: please, send a text')
         return None
